@@ -8,6 +8,44 @@ exports.NETWORKS = {
     FANTOM: { chainName: 'Fantom Opera', chainId: 250, rpcUrl: 'https://rpc.ftm.tools/' },
 }
 
+exports.TOKENS = {
+    KUSD: {
+        name: 'KUSD',
+        address: '0x60d717d69f964f4b67de9786e1796a4cf0d89940',
+        decimals: 18,
+    },
+    ONE_USDC: {
+        name: '1USDC',
+        address: '0x985458e523db3d53125813ed68c274899e9dfab4',
+        decimals: 6,
+    },
+    ONE_USDT: {
+        name: '1USDT',
+        address: '0x3c2b8be99c50593081eaa2a724f0b8285f5aba8f',
+        decimals: 6,
+    },
+    ONE_BUSD: {
+        name: '1BUSD',
+        address: '0xe176ebe47d621b984a73036b9da5d834411ef734',
+        decimals: 6,
+    },
+    bsc_USDC: {
+        name: 'bscUSDC',
+        address: '0x44cED87b9F1492Bf2DCf5c16004832569f7f6cBa',
+        decimals: 18,
+    },
+    bsc_USDT: {
+        name: 'bscUSDT',
+        address: '0x9A89d0e1b051640C6704Dde4dF881f73ADFEf39a',
+        decimals: 18,
+    },
+    bsc_BUSD: {
+        name: 'bscBUSD',
+        address: '0x0aB43550A6915F9f67d0c454C2E90385E6497EaA',
+        decimals: 18,
+    },
+}
+
 exports.POOLS = {
     [this.NETWORKS.HARMONY_ONE.chainId]: {
         ...this.NETWORKS.HARMONY_ONE,
@@ -17,26 +55,10 @@ exports.POOLS = {
                 address: '0xd7AcB90798f3a5DDd511B863A8105cF08eDA6865',
                 swapAddress: '0x44A783b046F012287A233E4e51949f47A2279deE',
                 tokensInPool: [
-                    {
-                        name: '1USDC',
-                        address: '0x985458e523db3d53125813ed68c274899e9dfab4',
-                        decimals: 6,
-                    },
-                    {
-                        name: '1USDT',
-                        address: '0x3c2b8be99c50593081eaa2a724f0b8285f5aba8f',
-                        decimals: 6,
-                    },
-                    {
-                        name: '1BUSD',
-                        address: '0xe176ebe47d621b984a73036b9da5d834411ef734',
-                        decimals: 6,
-                    },
-                    {
-                        name: 'KUSD',
-                        address: '0x60d717d69f964f4b67de9786e1796a4cf0d89940',
-                        decimals: 18,
-                    },
+                    this.TOKENS.ONE_USDC,
+                    this.TOKENS.ONE_USDC,
+                    this.TOKENS.ONE_USDT,
+                    this.TOKENS.KUSD,
                 ],
             },
             {
@@ -44,26 +66,10 @@ exports.POOLS = {
                 address: '0x72b9B9811C7893298F3E592107eFdC14d530AC51',
                 swapAddress: '0xcCB7C3166729fe92C914FB38B850696748d83db8',
                 tokensInPool: [
-                    {
-                        name: 'bscUSDC',
-                        address: '0x44cED87b9F1492Bf2DCf5c16004832569f7f6cBa',
-                        decimals: 18,
-                    },
-                    {
-                        name: 'bscUSDT',
-                        address: '0x9A89d0e1b051640C6704Dde4dF881f73ADFEf39a',
-                        decimals: 18,
-                    },
-                    {
-                        name: 'bscBUSD',
-                        address: '0x0aB43550A6915F9f67d0c454C2E90385E6497EaA',
-                        decimals: 18,
-                    },
-                    {
-                        name: 'KUSD',
-                        address: '0x60d717d69f964f4b67de9786e1796a4cf0d89940',
-                        decimals: 18,
-                    },
+                    this.TOKENS.bsc_USDC,
+                    this.TOKENS.bsc_USDT,
+                    this.TOKENS.bsc_BUSD,
+                    this.TOKENS.KUSD,
                 ],
             },
         ],
