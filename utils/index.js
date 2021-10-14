@@ -10,7 +10,7 @@ async function getTotalSupply(data) {
     for (const [k, v] of Object.entries(data.pools)) {
         const pair = new ethers.Contract(v.address, PAIR_ABI, provider)
         const totalSupply = await pair.totalSupply()
-        result.push({ pool: v, totalSupply: ethers.utils.formatEther(totalSupply) })
+        result.push({ ...v, totalSupply: ethers.utils.formatEther(totalSupply) })
     }
     // getVirtualPrice(data)
     return result
