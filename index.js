@@ -10,8 +10,8 @@ const { getTotalSupply } = require('./utils')
     const fantom = await getTotalSupply(POOLS[NETWORKS.FANTOM.chainId])
 
     let result = {}
-    Object.assign(result, { [NETWORKS.HARMONY_ONE.chainName]: harmony })
-    Object.assign(result, { [NETWORKS.FANTOM.chainName]: fantom })
+    Object.assign(result, { [NETWORKS.HARMONY_ONE.chainId]: harmony })
+    Object.assign(result, { [NETWORKS.FANTOM.chainId]: fantom })
     console.log(result)
     let fs = require('fs')
     fs.writeFileSync('/root/twinprime-api/www-data/static/multi-chain', JSON.stringify(result))
