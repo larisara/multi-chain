@@ -4,42 +4,55 @@ const PAIR_ABI = require('../consts/abis/Pair.abi.json')
 const SWAP_ABI = require('../consts/abis/Swap.abi.json')
 const ethers = require('ethers')
 
-async function getTotalSupply(data) {
-    const provider = new ethers.providers.JsonRpcProvider(data.rpcUrl)
-    let result = []
-    for (const [k, v] of Object.entries(data.pools)) {
-        const pair = new ethers.Contract(v.address, PAIR_ABI, provider)
-        const totalSupply = await pair.totalSupply()
-        result.push({ ...v, totalSupply: ethers.utils.formatEther(totalSupply) })
-    }
-    // getVirtualPrice(data)
-    return result
+async function getTotalSupply(address, provider) {
+    const pair = new ethers.Contract(address, PAIR_ABI, provider)
+    const _totalSupply = await pair.totalSupply()
+    return _totalSupply
 }
 
-async function getVirtualPrice(data) {
+async function getVirtualPrice(address, provider) {
+    const swap = new ethers.Contract(address, SWAP_ABI, provider)
+    const _virtualPrice = await swap.getVirtualPrice()
+    return _virtualPrice
+}
+async function getTokenBalance(data, provider) {
+    const swap = new ethers.Contract(data.swapAddress, SWAP_ABI, provider)
+    let result = []
+    for (const [k, v] of Object.entries(data.tokensInPool)) {
+        const _tokenBalance = await swap.getTokenBalance(k)
+        result.push({ ...v, tokenBalance: _tokenBalance, ts: _tokenBalance.toString() })
+    }
+    const map = result.map((x) => ethers.utils.formatUnits(x.tokenBalance, x.decimals))
+    let poolTvl = ethers.constants.Zero
+    for (const v of map) {
+        poolTvl = poolTvl.add(ethers.utils.parseEther(v))
+    }
+    return poolTvl
+}
+async function getInfo(data) {
     const provider = new ethers.providers.JsonRpcProvider(data.rpcUrl)
     let result = []
+    let tvl = ethers.constants.Zero
     for (const [k, v] of Object.entries(data.pools)) {
-        console.log()
-        const swap = new ethers.Contract(v.swapAddress, SWAP_ABI, provider)
-        const virtualPrice = await swap.getVirtualPrice()
-        const lpInPercent = virtualPrice.eq(ethers.constants.WeiPerEther)
-            ? ethers.constants.Zero
-            : virtualPrice.div(ethers.constants.WeiPerEther).sub(ethers.constants.One).mul(100)
-        const DAY_PER_YEAR = 365
-        const ONE_DAY_SECS = 86400
-        const timeInSecs = blockDiff * 3
-        const timeInDays = timeInSecs / ONE_DAY_SECS
-        const apy = virtualPrice.isZero()
-            ? ethers.constants.Zero
-            : lpInPercent.div(timeInDays).mul(DAY_PER_YEAR)
-        console.log('apy', apy)
-        const result = result.push({ pool: v, apy: ethers.utils.formatEther(apy) })
+        const _totalSupply = await getTotalSupply(v.address, provider)
+        const _virtualPrice = await getVirtualPrice(v.swapAddress, provider)
+        const poolTvl = await getTokenBalance(v, provider)
+        tvl = tvl.add(poolTvl)
+        result.push({
+            ...v,
+            _totalSupply: _totalSupply.toString(),
+            _virtualPrice: _virtualPrice.toString(),
+            totalSupply: _totalSupply
+                .div(ethers.constants.WeiPerEther)
+                .mul(_virtualPrice)
+                .div(ethers.constants.WeiPerEther)
+                .toString(),
+        })
     }
-
+    result['tvl'] = ethers.utils.formatEther(tvl)
     return result
 }
 
 module.exports = {
-    getTotalSupply,
+    getInfo,
 }

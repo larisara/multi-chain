@@ -27,7 +27,7 @@ exports.TOKENS = {
     ONE_BUSD: {
         name: '1BUSD',
         address: '0xe176ebe47d621b984a73036b9da5d834411ef734',
-        decimals: 6,
+        decimals: 18,
     },
     bsc_USDC: {
         name: 'bscUSDC',
@@ -56,8 +56,8 @@ exports.POOLS = {
                 swapAddress: '0x44A783b046F012287A233E4e51949f47A2279deE',
                 tokensInPool: [
                     this.TOKENS.ONE_USDC,
-                    this.TOKENS.ONE_USDC,
                     this.TOKENS.ONE_USDT,
+                    this.TOKENS.ONE_BUSD,
                     this.TOKENS.KUSD,
                 ],
             },
