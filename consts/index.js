@@ -44,6 +44,26 @@ exports.TOKENS = {
         address: '0x0aB43550A6915F9f67d0c454C2E90385E6497EaA',
         decimals: 18,
     },
+    FANTOM_USDC: {
+        name: 'USDC',
+        address: '0x04068da6c83afcfa0e13ba15a6696662335d5b75',
+        decimals: 6,
+    },
+    FANTOM_USDT: {
+        name: 'fUSDT',
+        address: '0x049d68029688eabf473097a2fc38ef61633a3c7a',
+        decimals: 6,
+    },
+    FANTOM_DAI: {
+        name: 'DAI',
+        address: '0x8d11ec38a3eb5e956b052f67da8bdc9bef8abf3e',
+        decimals: 18,
+    },
+    FANTOM_MIM: {
+        name: 'MIM',
+        address: '0x82f0b8b456c1a451378467398982d4834b6829c1',
+        decimals: 18,
+    },
 }
 
 exports.POOLS = {
@@ -60,6 +80,7 @@ exports.POOLS = {
                     this.TOKENS.ONE_BUSD,
                     this.TOKENS.KUSD,
                 ],
+                deployedAt: 18111836
             },
             {
                 name: 'BSC LPs',
@@ -71,6 +92,7 @@ exports.POOLS = {
                     this.TOKENS.bsc_BUSD,
                     this.TOKENS.KUSD,
                 ],
+                deployedAt: 18111883
             },
         ],
     },
@@ -81,28 +103,8 @@ exports.POOLS = {
                 name: 'Dopple LP (DOP-LP)',
                 address: '0x9116F04092828390799514Bac9986529d70c3791',
                 swapAddress: '0x5162f992EDF7101637446ecCcD5943A9dcC63A8A',
-                tokensInPool: [
-                    {
-                        name: 'USDC',
-                        address: '0x04068da6c83afcfa0e13ba15a6696662335d5b75',
-                        decimals: 6,
-                    },
-                    {
-                        name: 'fUSDT',
-                        address: '0x049d68029688eabf473097a2fc38ef61633a3c7a',
-                        decimals: 6,
-                    },
-                    {
-                        name: 'DAI',
-                        address: '0x8d11ec38a3eb5e956b052f67da8bdc9bef8abf3e',
-                        decimals: 18,
-                    },
-                    {
-                        name: 'MIM',
-                        address: '0x82f0b8b456c1a451378467398982d4834b6829c1',
-                        decimals: 18,
-                    },
-                ],
+                tokensInPool: [this.TOKENS.FANTOM_USDC, this.TOKENS.FANTOM_USDT, this.TOKENS.FANTOM_DAI, this.TOKENS.FANTOM_MIM],
+                deployedAt: 18930210
             },
         ],
     },
