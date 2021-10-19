@@ -6,12 +6,15 @@ const { NETWORKS, POOLS } = require('./consts/index')
 const { getInfo, getTVL } = require('./utils')
 
 !(async function () {
+  const bscPools = await getInfo(POOLS[NETWORKS.BSC.chainId])
   const harmonyPools = await getInfo(POOLS[NETWORKS.HARMONY_ONE.chainId])
   const fantomPools = await getInfo(POOLS[NETWORKS.FANTOM.chainId])
+
   const harmonyTVL = await getTVL(POOLS[NETWORKS.HARMONY_ONE.chainId])
   const fantomTVL = await getTVL(POOLS[NETWORKS.FANTOM.chainId])
 
   let result = {}
+  Object.assign(result, { [NETWORKS.BSC.chainId]: bscPools })
   Object.assign(result, { [NETWORKS.HARMONY_ONE.chainId]: harmonyPools })
   Object.assign(result, { [NETWORKS.FANTOM.chainId]: fantomPools })
   result['tvl'] = {

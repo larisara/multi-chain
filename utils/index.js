@@ -44,7 +44,9 @@ async function getTVL(data) {
 
 async function getAPY(pool, network) {
   const web3 = new Web3(network.rpcUrl);
-  // let latest = await web3.eth.getBlockNumber()
+  let latest = await web3.eth.getBlockNumber()
+  let earliest = await web3.eth.getBlock('earliest')
+  console.log('ealrier', earliest)
   let swapContract = new web3.eth.Contract(SWAP_ABI, pool.swapAddress)
   // let DAY_BLOCKS = network.chainId === NETWORKS.FANTOM.chainId ? 100000 : 1000
   let DAY_BLOCKS = 6550
@@ -79,18 +81,32 @@ async function getInfo(data) {
   for (const [k, v] of Object.entries(data.pools)) {
     const _totalSupply = await getTotalSupply(v.address, provider)
     const _virtualPrice = await getVirtualPrice(v.swapAddress, provider)
-    const _apy = await getAPY(v, data)
-    result.push({
-      ...v,
-      _totalSupply: _totalSupply.toString(),
-      _virtualPrice: _virtualPrice.toString(),
-      apy: _apy.toString(),
-      totalSupply: _totalSupply
-        .div(ethers.constants.WeiPerEther)
-        .mul(_virtualPrice)
-        .div(ethers.constants.WeiPerEther)
-        .toString(),
-    })
+    if (data.chainId !== NETWORKS.BSC.chainId) {
+      const _apy = await getAPY(v, data)
+      result.push({
+        ...v,
+        _totalSupply: _totalSupply.toString(),
+        _virtualPrice: _virtualPrice.toString(),
+        apy: _apy.toString(),
+        totalSupply: _totalSupply
+          .div(ethers.constants.WeiPerEther)
+          .mul(_virtualPrice)
+          .div(ethers.constants.WeiPerEther)
+          .toString(),
+      })
+    }
+    else
+      result.push({
+        ...v,
+        _totalSupply: _totalSupply.toString(),
+        _virtualPrice: _virtualPrice.toString(),
+        totalSupply: _totalSupply
+          .div(ethers.constants.WeiPerEther)
+          .mul(_virtualPrice)
+          .div(ethers.constants.WeiPerEther)
+          .toString(),
+      })
+
   }
   return result
 }
