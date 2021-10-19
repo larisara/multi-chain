@@ -61,6 +61,11 @@ exports.TOKENS = {
         address: '0x14016E85a25aeb13065688cAFB43044C2ef86784',
         decimals: 18,
     },
+    DOLLY: {
+        name: 'DOLLY',
+        address: '0xfF54da7CAF3BC3D34664891fC8f3c9B6DeA6c7A5',
+        decimals: 18,
+    },
     // * HARMONY
     KUSD: {
         name: 'KUSD',
